@@ -46,9 +46,8 @@ class ManageTournamentApplicationTests {
         TournamentRequest request = new TournamentRequest();
         TournamentResponse response = new TournamentResponse();
         response.setId(1L);
-        mockMvc.perform(MockMvcRequestBuilders.post("/tournaments/create")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(request)))
+        mockMvc.perform(MockMvcRequestBuilders.get("/get-by-id/{id}")
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
     @Test
