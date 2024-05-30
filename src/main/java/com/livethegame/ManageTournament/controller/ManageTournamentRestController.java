@@ -23,23 +23,23 @@ public class ManageTournamentRestController {
     @Autowired
     MonitoringService monitoringService;
 
-    @GetMapping("/fullInformation/{id}")
-    public ResponseEntity<?> getFullInformation(@PathVariable String id){
+    @GetMapping("/get-by-id/{id}")
+    public ResponseEntity<?> getById(@PathVariable String id){
         Long idTournament;
         try {
             idTournament = Long.parseLong(id);
             TournamentResponse tournamentResponse = tournamentService.getTournamentById(idTournament);
             return ResponseEntity.ok(tournamentResponse);
         } catch (NumberFormatException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "/fullInformation/{id} Id tipo inválido: " + id);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "/get-by-id/{id} Id tipo inválido: " + id);
         } catch (CategoryNotFoundException
                  | TournamentNotFoundException
                  | ParamsNotFoundException
                  | UserNotFoundException e) {
-            monitoringService.registerControlledExceptionLog("","/fullInformation/{id} "+id+" "+e.getMessage());
+            monitoringService.registerControlledExceptionLog("","/get-by-id/{id} "+id+" "+e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e) {
-            monitoringService.registerNotControlledExceptionLog("","/fullInformation/{id} "+id+" "+e.getMessage());
+            monitoringService.registerNotControlledExceptionLog("","/get-by-id/{id} "+id+" "+e.getMessage());
             return ResponseEntity.status(500).body("Error interno del servidor");
         }
     }
